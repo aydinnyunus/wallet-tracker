@@ -65,6 +65,8 @@
 General information about setting up Wallet Tracker CLI locally
 
 
+![CLI](img/2022-06-23_19-39.png)
+
 ## Installation
 
 ```bash
@@ -91,6 +93,17 @@ If you want to specify network ( you don't need that for now ) use this command:
    $ wallet-tracker tracker track --wallet 37oTUqiViE3YySs8xxAtKgTzQgoVuSVbse --network BTC
 ```
 
+### Get All Transactions
+
+If you want to get all transactions from websocket use this command:
+
+```shell
+   $ wallet-tracker tracker websocket --all
+```
+
+![Websocket](img/2022-06-23_20-05.png)
+
+
 ### Detect Exchanges on Exit Nodes
 
 If you want to Detect Exchanges on Exit Nodes use this command:
@@ -106,6 +119,17 @@ If you want to visualize Wallets and Transactions using Neo4J database use this 
 ```shell
    $ wallet-tracker neodash start
 ```
+
+![Neodash](img/2022-06-23_20-01.png)
+
+Show specific transaction graph.
+
+![Specific Transaction](img/2022-06-23_20-02.png)
+
+Show all graph database
+
+![All database](img/2022-06-23_20-03.png)
+
 
 ### Get Exchange Wallet
 
