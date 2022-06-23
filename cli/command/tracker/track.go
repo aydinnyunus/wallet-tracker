@@ -327,9 +327,9 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 		for i := range repository.ExitNodes {
 			color.Blue("Checking Exchange Exits")
 			if repository.StringInSlice(repository.ExitNodes[i], uni) {
-				color.Green("Bu adres UNISWAPE ÇIKIYOR %s\n", repository.ExitNodes[i])
+				color.Green("This address %s refers to Uniswap\n", repository.ExitNodes[i])
 			} else if repository.StringInSlice(repository.ExitNodes[i], bitfinex) {
-				color.Green("Bu adres BITFINEXE ÇIKIYOR %s\n", repository.ExitNodes[i])
+				color.Green("This address %s refers to Bitfinex\n", repository.ExitNodes[i])
 			}
 		}
 	}
