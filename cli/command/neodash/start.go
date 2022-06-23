@@ -31,7 +31,7 @@ func StartCommand() *cobra.Command {
 
 	// declaring local flags used by start neodash commands.
 	getCmd.Flags().String(
-		"port", "p", "Specify specific port",
+		"port", "7487", "Specify specific port",
 	)
 
 	getCmd.Flags().BoolP(
