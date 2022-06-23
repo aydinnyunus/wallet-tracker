@@ -44,6 +44,7 @@
          <ul>
             <li><a href="#track-wallet">Track Wallet</a></li>
             <li><a href="#track-wallet-with-network">Track Wallet with Network</a></li>
+           <li><a href="#get-all-transactions">Get All Transactions</a></li>
             <li><a href="#detect-exchanges-on-exit-nodes">Detect Exchanges on Exit Nodes</a></li>
            <li><a href="#start-neodash">Start Neodash</a></li>
            <li><a href="#get-exchange-wallet">Get Exchange Wallet</a></li>
