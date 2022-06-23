@@ -18,8 +18,8 @@ var ()
 func NewTrackCommand() *cobra.Command {
 	var trackCommands = &cobra.Command{
 		Use:   "tracker",
-		Short: "Query and Play with Redis",
-		Long:  `Query and play with trips in the Redis of your choice.`,
+		Short: "Track Scammers with Track Command",
+		Long:  `Track Scammers with Track Command.`,
 		RunE:  ShowHelp(os.Stdout),
 	}
 
