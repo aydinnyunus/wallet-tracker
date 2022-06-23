@@ -11,7 +11,6 @@
 <br />
 <p align="center">
   <a href="https://github.com/aydinnyunus/wallet-tracker">
-    <img src="data/images/strixeye_icon-purple.svg" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Wallet Tracker CLI</h3>
@@ -21,7 +20,6 @@
     <a href="https://github.com/aydinnyunus/wallet-tracker"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/aydinnyunus/wallet-tracker">View Demo</a>
     ·
     <a href="https://github.com/aydinnyunus/wallet-tracker/issues">Report Bug</a>
     ·
