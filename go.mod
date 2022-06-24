@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.0
-	github.com/aydinnyunus/blockchain v0.0.0-20220620185937-21a9b2b93ba8
+	github.com/aydinnyunus/blockchain latest
 	github.com/fatih/color v1.13.0
 	github.com/fatih/structs v1.1.0
 	github.com/go-git/go-git/v5 v5.4.2
