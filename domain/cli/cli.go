@@ -6,7 +6,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/aydinnyunus/wallet-tracker-cli/domain/repository"
+	"github.com/aydinnyunus/wallet-tracker/domain/repository"
 )
 
 

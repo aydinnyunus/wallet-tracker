@@ -1,8 +1,8 @@
 package tracker
 
 import (
-	"github.com/aydinnyunus/wallet-tracker-cli/cli/command/repository"
-	models "github.com/aydinnyunus/wallet-tracker-cli/domain/repository"
+	"github.com/aydinnyunus/wallet-tracker/cli/command/repository"
+	models "github.com/aydinnyunus/wallet-tracker/domain/repository"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

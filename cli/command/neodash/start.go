@@ -1,7 +1,7 @@
 package neodash
 
 import (
-	"github.com/aydinnyunus/wallet-tracker-cli/domain/cli"
+	"github.com/aydinnyunus/wallet-tracker/domain/cli"
 	"github.com/fatih/color"
 	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
@@ -11,7 +11,7 @@ import (
 	"os/exec"
 	"strconv"
 
-	models "github.com/aydinnyunus/wallet-tracker-cli/domain/repository"
+	models "github.com/aydinnyunus/wallet-tracker/domain/repository"
 	"github.com/go-git/go-git/v5"
 )
 

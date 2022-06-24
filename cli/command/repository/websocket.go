@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	models "github.com/aydinnyunus/wallet-tracker-cli/domain/repository"
+	models "github.com/aydinnyunus/wallet-tracker/domain/repository"
 	"github.com/fatih/color"
 	"github.com/gorilla/websocket"
 	"log"

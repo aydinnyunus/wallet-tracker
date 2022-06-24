@@ -1,9 +1,9 @@
 package commands
 
 import (
-	"github.com/aydinnyunus/wallet-tracker-cli/cli/command/neodash"
-	"github.com/aydinnyunus/wallet-tracker-cli/cli/command/redis"
-	"github.com/aydinnyunus/wallet-tracker-cli/cli/command/tracker"
+	"github.com/aydinnyunus/wallet-tracker/cli/command/neodash"
+	"github.com/aydinnyunus/wallet-tracker/cli/command/redis"
+	"github.com/aydinnyunus/wallet-tracker/cli/command/tracker"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 	"io"

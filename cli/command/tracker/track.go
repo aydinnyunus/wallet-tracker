@@ -3,8 +3,8 @@ package tracker
 import (
 	"fmt"
 	"github.com/aydinnyunus/blockchain"
-	"github.com/aydinnyunus/wallet-tracker-cli/cli/command/repository"
-	models "github.com/aydinnyunus/wallet-tracker-cli/domain/repository"
+	"github.com/aydinnyunus/wallet-tracker/cli/command/repository"
+	models "github.com/aydinnyunus/wallet-tracker/domain/repository"
 	"github.com/fatih/color"
 	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
