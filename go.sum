@@ -86,6 +86,10 @@ github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5 h1:0CwZNZbxp69SHPd
 github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5/go.mod h1:wHh0iHkYZB8zMSxRWpUBQtwG5a7fFgvEO+odwuTv2gs=
 github.com/aydinnyunus/blockchain v0.0.0-20220620185937-21a9b2b93ba8 h1:Z0MyRIWP7IplXgNyEBp9s9FvajSa2FTLgN66EwgTAj0=
 github.com/aydinnyunus/blockchain v0.0.0-20220620185937-21a9b2b93ba8/go.mod h1:R+G7mtXnigKBYYkdBq3CtibBvJuSgj7wpznSJ1t6y6s=
+github.com/aydinnyunus/blockchain v0.0.0-20220623151650-647ebea78f3b h1:hNnJ08ALSMSXxQdf1UIChlooRtziyVByIVWef0UiVEM=
+github.com/aydinnyunus/blockchain v0.0.0-20220623151650-647ebea78f3b/go.mod h1:R+G7mtXnigKBYYkdBq3CtibBvJuSgj7wpznSJ1t6y6s=
+github.com/aydinnyunus/wallet-tracker-cli v0.0.0-20220623150724-c3bc5f84cf10 h1:SjVPjH8BH5UrUt0bwPIIEBZ/DuvjhCdapmrGZCyCgeg=
+github.com/aydinnyunus/wallet-tracker-cli v0.0.0-20220623150724-c3bc5f84cf10/go.mod h1:COdfmUP+axEjYQm2tbAzTBvoiUCsnwXvLHrsLLXAxGA=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
 github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+CedLV8=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
