@@ -1,4 +1,4 @@
-module github.com/aydinnyunus/wallet-tracker-cli
+module github.com/aydinnyunus/wallet-tracker
 
 go 1.17
 
