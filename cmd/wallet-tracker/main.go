@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/aydinnyunus/wallet-tracker-cli/cli/command/commands"
+	"github.com/aydinnyunus/wallet-tracker/cli/command/commands"
 )
 
 var rootCmd *cobra.Command
