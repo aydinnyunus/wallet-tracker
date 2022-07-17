@@ -4,9 +4,6 @@ import (
 	"fmt"
 )
 
-/*
-	Created by aomerk at 5/21/21 for project cli
-*/
 
 // global constants for file
 const ()
