@@ -95,7 +95,7 @@ func startNeoDash(cmd *cobra.Command, _ []string) error {
 
 func CreateNeodash(args models.ScammerQueryArgs) ([]byte, error) {
 	_, err := git.PlainClone(mydir + "/bitcoin-to-neo4jdash", false, &git.CloneOptions{
-		URL:      "https://github.com/aydinnyunus/bitcoin-to-neo4jdash",
+		URL:      "https://github.com/tomasonjo/bitcoin-to-neo4jdash",
 		Progress: os.Stdout,
 	})
 
