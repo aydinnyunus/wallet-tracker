@@ -11,10 +11,7 @@ permissions:
   contents: write
   # packages: write
   # issues: write
-  
-builds:
-  - main: ./cmd/wallet-tracker/main.go
-  
+
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
@@ -36,6 +33,7 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          MAIN: ./cmd/wallet-tracker/main.go
           # Your GoReleaser Pro key, if you are using the 'goreleaser-pro'
           # distribution:
           # GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}t
