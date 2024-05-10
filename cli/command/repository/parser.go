@@ -40,10 +40,7 @@ type exitResponse struct {
 
 func checkControlled(rdb *redis.Client, ctx context.Context, index int) bool {
 	exc := ReadRedis(rdb, ctx, exchange[index], -1)
-	if len(exc) > 1 {
-		return true
-	}
-	return false
+	return len(exc) > 1
 }
 
 func getLinks(body io.Reader) []string {

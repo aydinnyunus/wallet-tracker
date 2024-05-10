@@ -38,9 +38,9 @@ func GetBitcoinPrice() float64 {
 			log.Fatal(err)
 		}
 	}(resp.Body)
-	body, err := ioutil.ReadAll(resp.Body) // response body is []byte
+	body, _ := ioutil.ReadAll(resp.Body) // response body is []byte
 	var result Response
-	if err := json.Unmarshal(body, &result); err != nil { // Parse []byte to the go struct pointer
+	if err2 := json.Unmarshal(body, &result); err2 != nil { // Parse []byte to the go struct pointer
 		fmt.Println("Can not unmarshal JSON")
 	}
 	return result.Usd.Last

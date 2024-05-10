@@ -12,13 +12,11 @@ import (
 	models "github.com/aydinnyunus/wallet-tracker/domain/repository"
 )
 
-
 // global constants for file
 const ()
 
 // global variables (not cool) for this file
 var ()
-
 
 func GetCommand() *cobra.Command {
 	getCmd := &cobra.Command{
@@ -92,7 +90,7 @@ func getRedisCmd(cmd *cobra.Command, _ []string) error {
 	// print out query settings
 	color.Blue(queryArgs.String())
 
-	if exchange == nil || len(exchange) == 0 {
+	if len(exchange) == 0 {
 		color.Blue("0 result.")
 		return nil
 	}
@@ -106,12 +104,11 @@ func getRedisCmd(cmd *cobra.Command, _ []string) error {
 	return nil
 }
 
-
 // ScammerQueryArgs for more information about existing filters.
 func get(dbConfig models.Database, args models.ScammerQueryArgs) ([]string, error) {
 	var (
 		err    error
-		_     *redis.Client
+		_      *redis.Client
 		result []string
 	)
 	// connect to database
@@ -127,8 +124,8 @@ func get(dbConfig models.Database, args models.ScammerQueryArgs) ([]string, erro
 
 	// filter by suspect ids
 	if args.Exchanges != nil {
-		for i,_ := range args.Exchanges{
-			result = append(result, repository.ReadRedis(rdb,ctx,args.Exchanges[i], args.Limit)...)
+		for i := range args.Exchanges {
+			result = append(result, repository.ReadRedis(rdb, ctx, args.Exchanges[i], args.Limit)...)
 		}
 	}
 

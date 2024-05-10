@@ -19,14 +19,16 @@ import (
 const ()
 
 // global variables (not cool) for this file
-var (mydir, _ = os.Getwd())
+var (
+	mydir, _ = os.Getwd()
+)
 
 func StartCommand() *cobra.Command {
 	getCmd := &cobra.Command{
 		Use:   "start",
 		Short: "Command to start NeoDash",
-		Long: ``,
-		RunE: startNeoDash,
+		Long:  ``,
+		RunE:  startNeoDash,
 	}
 
 	// declaring local flags used by start neodash commands.
@@ -83,7 +85,6 @@ func startNeoDash(cmd *cobra.Command, _ []string) error {
 	// print out query settings
 	color.Blue(queryArgs.String())
 
-
 	// print out result
 	_, err = pp.Print(out)
 	if err != nil {
@@ -94,27 +95,26 @@ func startNeoDash(cmd *cobra.Command, _ []string) error {
 }
 
 func CreateNeodash(args models.ScammerQueryArgs) ([]byte, error) {
-	_, err := git.PlainClone(mydir + "/bitcoin-to-neo4jdash", false, &git.CloneOptions{
+	_, err := git.PlainClone(mydir+"/bitcoin-to-neo4jdash", false, &git.CloneOptions{
 		URL:      "https://github.com/tomasonjo/bitcoin-to-neo4jdash",
 		Progress: os.Stdout,
 	})
 
-	if err != nil{
+	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
 
 	color.Yellow("Define Schema is starting")
-	out, err := DefineSchema(args)
-	if err != nil {
-		return nil, err
+	_, err2 := DefineSchema(args)
+	if err2 != nil {
+		return nil, err2
 	}
 	color.Yellow("Define Schema is finished")
 
-
 	color.Yellow("Builds, (re)creates, starts, and attaches to containers for a service.")
 
-	out, err = DockerComposeUp(args)
+	out, err := DockerComposeUp(args)
 	if err != nil {
 		return nil, err
 	}
@@ -130,7 +130,7 @@ func DefineSchema(args models.ScammerQueryArgs) ([]byte, error) {
 	return out, nil
 }
 
-func DockerComposeUp(args models.ScammerQueryArgs)([]byte, error){
+func DockerComposeUp(args models.ScammerQueryArgs) ([]byte, error) {
 	cmdStr := "sudo docker-compose -f " + mydir + "/bitcoin-to-neo4jdash/docker-compose.yml up"
 	out, _ := exec.Command("/bin/sh", "-c", cmdStr).Output()
 
