@@ -11,7 +11,10 @@ permissions:
   contents: write
   # packages: write
   # issues: write
-
+  
+builds:
+  - main: ./cmd/wallet-tracker/main.go
+  
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
