@@ -17,8 +17,8 @@ func NewWalletTrackerCommand() *cobra.Command {
 	// Define our command
 	rootCmd := &cobra.Command{
 		Use:   "wallet-tracker",
-		Short: "The Wallet-Tracker Command Line Interface",
-		Long:  `Detect real scammers with Wallet-Tracker CLI from anywhere.`,
+		Short: "The Wallet Tracker Command Line Interface",
+		Long:  `Detect real scammers with Wallet Tracker CLI from anywhere`,
 		RunE:  ShowHelp(os.Stdout),
 	}
 
