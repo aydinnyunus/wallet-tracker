@@ -1,8 +1,11 @@
 package neodash
 
 import (
+	"fmt"
 	"github.com/aydinnyunus/wallet-tracker/domain/cli"
+	models "github.com/aydinnyunus/wallet-tracker/domain/repository"
 	"github.com/fatih/color"
+	"github.com/go-git/go-git/v5"
 	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -11,9 +14,6 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strconv"
-
-	models "github.com/aydinnyunus/wallet-tracker/domain/repository"
-	"github.com/go-git/go-git/v5"
 )
 
 // global constants for file
@@ -119,41 +119,57 @@ func CreateNeodash(args models.ScammerQueryArgs) ([]byte, error) {
 		color.Yellow("Define Schema is finished")
 	}
 
+	err := checkBinaryExists("docker")
 	// Check if Docker Compose is running
-	cmd := exec.Command("docker-compose", "ps", "-q")
-	cmd.Dir = repoDir
-	out, err := cmd.Output()
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
-	if len(out) == 0 {
-		// Docker Compose is not running, start it
-		color.Yellow("Builds, (re)creates, starts, and attaches to containers for a service.")
-		out, err = DockerComposeUp(args)
+	if err == nil {
+		cmd := exec.Command("docker", "compose", "ps", "-q")
+		cmd.Dir = repoDir
+		out, err := cmd.Output()
 		if err != nil {
 			log.Fatal(err)
 			return nil, err
 		}
-		color.Yellow("docker-compose up finished. http://localhost:80")
+
+		if len(out) == 0 {
+			// Docker Compose is not running, start it
+			color.Yellow("Builds, (re)creates, starts, and attaches to containers for a service.")
+			out, err = DockerComposeUp(args)
+			if err != nil {
+				log.Fatal(err)
+				return nil, err
+			}
+			color.Yellow("docker-compose up finished. http://localhost:80")
+		} else {
+			color.Yellow("Docker Compose is already running")
+		}
+
+		return out, err
 	} else {
-		color.Yellow("Docker Compose is already running")
+		color.Red("Docker is not installed.")
+		return nil, err
 	}
 
-	return out, err
 }
 
 // DefineSchema is a temporary method to satisfy the authentication process.
 func DefineSchema(args models.ScammerQueryArgs) ([]byte, error) {
 	cmdStr := "sudo sh " + mydir + "/bitcoin-to-neo4jdash/define_schema.sh"
 	out, _ := exec.Command("/bin/sh", "-c", cmdStr).Output()
+	color.Yellow(string(out))
 	return out, nil
 }
 
 func DockerComposeUp(args models.ScammerQueryArgs) ([]byte, error) {
-	cmdStr := "sudo docker-compose -f " + mydir + "/bitcoin-to-neo4jdash/docker-compose.yml up"
+	cmdStr := "sudo docker compose -f " + mydir + "/bitcoin-to-neo4jdash/docker-compose.yml up -d"
 	out, _ := exec.Command("/bin/sh", "-c", cmdStr).Output()
-
+	color.Yellow(string(out))
 	return out, nil
+}
+
+func checkBinaryExists(binaryName string) error {
+	_, err := exec.LookPath(binaryName)
+	if err != nil {
+		return fmt.Errorf("%s binary not found", binaryName)
+	}
+	return nil
 }
