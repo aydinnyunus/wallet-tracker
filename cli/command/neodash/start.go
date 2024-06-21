@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strconv"
 
 	models "github.com/aydinnyunus/wallet-tracker/domain/repository"
@@ -95,30 +96,50 @@ func startNeoDash(cmd *cobra.Command, _ []string) error {
 }
 
 func CreateNeodash(args models.ScammerQueryArgs) ([]byte, error) {
-	_, err := git.PlainClone(mydir+"/bitcoin-to-neo4jdash", false, &git.CloneOptions{
-		URL:      "https://github.com/tomasonjo/bitcoin-to-neo4jdash",
-		Progress: os.Stdout,
-	})
+	repoDir := filepath.Join(mydir, "bitcoin-to-neo4jdash")
+	// Check if directory exists
+	if _, err := os.Stat(repoDir); os.IsNotExist(err) {
+		// Directory does not exist, clone the repository
+		_, err := git.PlainClone(repoDir, false, &git.CloneOptions{
+			URL:      "https://github.com/tomasonjo/bitcoin-to-neo4jdash",
+			Progress: os.Stdout,
+		})
+		if err != nil {
+			log.Fatal(err)
+			return nil, err
+		}
+		color.Yellow("Repository cloned successfully")
 
+		color.Yellow("Define Schema is starting")
+		_, err = DefineSchema(args)
+		if err != nil {
+			log.Fatal(err)
+			return nil, err
+		}
+		color.Yellow("Define Schema is finished")
+	}
+
+	// Check if Docker Compose is running
+	cmd := exec.Command("docker-compose", "ps", "-q")
+	cmd.Dir = repoDir
+	out, err := cmd.Output()
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
 
-	color.Yellow("Define Schema is starting")
-	_, err2 := DefineSchema(args)
-	if err2 != nil {
-		return nil, err2
+	if len(out) == 0 {
+		// Docker Compose is not running, start it
+		color.Yellow("Builds, (re)creates, starts, and attaches to containers for a service.")
+		out, err = DockerComposeUp(args)
+		if err != nil {
+			log.Fatal(err)
+			return nil, err
+		}
+		color.Yellow("docker-compose up finished. http://localhost:80")
+	} else {
+		color.Yellow("Docker Compose is already running")
 	}
-	color.Yellow("Define Schema is finished")
-
-	color.Yellow("Builds, (re)creates, starts, and attaches to containers for a service.")
-
-	out, err := DockerComposeUp(args)
-	if err != nil {
-		return nil, err
-	}
-	color.Yellow("docker-compose up finished. http://localhost:80")
 
 	return out, err
 }
