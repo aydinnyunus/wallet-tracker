@@ -5,14 +5,12 @@ import (
 	"github.com/aydinnyunus/wallet-tracker/domain/cli"
 	models "github.com/aydinnyunus/wallet-tracker/domain/repository"
 	"github.com/fatih/color"
-	"github.com/go-git/go-git/v5"
 	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"log"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"strconv"
 )
 
@@ -96,34 +94,18 @@ func startNeoDash(cmd *cobra.Command, _ []string) error {
 }
 
 func CreateNeodash(args models.ScammerQueryArgs) ([]byte, error) {
-	repoDir := filepath.Join(mydir, "bitcoin-to-neo4jdash")
-	// Check if directory exists
-	if _, err := os.Stat(repoDir); os.IsNotExist(err) {
-		// Directory does not exist, clone the repository
-		_, err := git.PlainClone(repoDir, false, &git.CloneOptions{
-			URL:      "https://github.com/tomasonjo/bitcoin-to-neo4jdash",
-			Progress: os.Stdout,
-		})
-		if err != nil {
-			log.Fatal(err)
-			return nil, err
-		}
-		color.Yellow("Repository cloned successfully")
-
-		color.Yellow("Define Schema is starting")
-		_, err = DefineSchema(args)
-		if err != nil {
-			log.Fatal(err)
-			return nil, err
-		}
-		color.Yellow("Define Schema is finished")
+	color.Yellow("Define Schema is starting")
+	_, err := DefineSchema(args)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
 	}
+	color.Yellow("Define Schema is finished")
 
-	err := checkBinaryExists("docker")
+	err = checkBinaryExists("docker")
 	// Check if Docker Compose is running
 	if err == nil {
 		cmd := exec.Command("docker", "compose", "ps", "-q")
-		cmd.Dir = repoDir
 		out, err := cmd.Output()
 		if err != nil {
 			log.Fatal(err)
@@ -153,14 +135,14 @@ func CreateNeodash(args models.ScammerQueryArgs) ([]byte, error) {
 
 // DefineSchema is a temporary method to satisfy the authentication process.
 func DefineSchema(args models.ScammerQueryArgs) ([]byte, error) {
-	cmdStr := "sudo sh " + mydir + "/bitcoin-to-neo4jdash/define_schema.sh"
+	cmdStr := "sudo sh define_schema.sh"
 	out, _ := exec.Command("/bin/sh", "-c", cmdStr).Output()
 	color.Yellow(string(out))
 	return out, nil
 }
 
 func DockerComposeUp(args models.ScammerQueryArgs) ([]byte, error) {
-	cmdStr := "sudo docker compose -f " + mydir + "/bitcoin-to-neo4jdash/docker-compose.yml up -d"
+	cmdStr := "sudo docker compose -f docker-compose.yml up -d"
 	out, _ := exec.Command("/bin/sh", "-c", cmdStr).Output()
 	color.Yellow(string(out))
 	return out, nil
