@@ -31,11 +31,11 @@ func TrackCommand() *cobra.Command {
 
 	// declaring local flags used by track wallet commands.
 	getCmd.Flags().String(
-		"wallet", "w", "Specify specific wallet",
+		"wallet", "bc1q7pkc7h8td55s4em7tmlvd42wahjd4hm8lf035n", "Specify specific wallet",
 	)
 
 	getCmd.Flags().String(
-		"network", "n", "Specify specific network",
+		"network", "BTC", "Specify specific network",
 	)
 
 	getCmd.Flags().BoolP(
@@ -130,9 +130,11 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 
 	for i := range walletID {
 		network := repository.CheckWalletNetwork(walletID[i])
+		color.Blue(strconv.Itoa(network))
 		graph := repository.New()
 
 		if network == repository.BtcNetwork {
+			color.Blue("Your wallet network is BTC")
 
 			c, _ := blockchain.New()
 
@@ -218,6 +220,8 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 
 			}
 		} else if network == repository.EthNetwork {
+
+			color.Blue("Your wallet network is ETH")
 			c, _ := blockchain.New()
 
 			resp2, e := c.GetETHAddressSummary(walletID[i], true)
