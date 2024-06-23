@@ -10,12 +10,15 @@ services:
       - 7687:7687
     volumes:
       - ./neo4j/data:/data
+      - ./conf:/var/lib/neo4j/conf
+    env_file:
+      - .env
     environment:
       - NEO4J_USERNAME=${NEO4J_USERNAME}
       - NEO4J_PASSWORD=${NEO4J_PASS}
       - NEO4J_AUTH=${NEO4J_USERNAME}/${NEO4J_PASS}
       - NEO4JLABS_PLUGINS=["apoc", "graph-data-science"]
-      - NEO4J_dbms_security_procedures_unrestricted=apoc.*,gds.*
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.,gds.
       - NEO4J_dbms_memory_heap_initial__size=4G
       - NEO4J_dbms_memory_heap_max__size=4G
       - NEO4J_dbms_memory_pagecache_size=2G

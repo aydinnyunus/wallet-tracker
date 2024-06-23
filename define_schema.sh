@@ -13,14 +13,14 @@ fi
 
 docker cp conf/disabled.conf neo4j:/var/lib/neo4j/conf/neo4j.conf
 docker exec -e NEO4J_USERNAME="$NEO4J_USERNAME" -e NEO4J_PASSWORD="$NEO4J_PASS" neo4j cypher-shell -u "$NEO4J_USERNAME" -p "$NEO4J_PASS" "ALTER USER $NEO4J_USERNAME SET PASSWORD '$NEO4J_PASS';"
+docker cp conf/neo4j.conf neo4j:/var/lib/neo4j/conf/neo4j.conf
+
+docker exec neo4j neo4j restart
 
 # Define unique constraints
 docker exec neo4j cypher-shell -u $NEO4J_USERNAME -p $NEO4J_PASS -d neo4j 'CREATE CONSTRAINT IF NOT EXISTS ON (t:Transaction) ASSERT t.hash IS UNIQUE;'
 docker exec neo4j cypher-shell -u $NEO4J_USERNAME -p $NEO4J_PASS -d neo4j 'CREATE CONSTRAINT IF NOT EXISTS ON (a:Address) ASSERT a.id IS UNIQUE;'
 docker exec neo4j cypher-shell -u $NEO4J_USERNAME -p $NEO4J_PASS -d neo4j 'CREATE INDEX FOR (t:Transaction) ON (t.timestamp);'
 
-docker cp conf/enabled.conf neo4j:/var/lib/neo4j/conf/neo4j.conf
 
 docker compose stop
-
-
