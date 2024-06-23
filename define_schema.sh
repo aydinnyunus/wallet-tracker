@@ -3,10 +3,18 @@ docker compose up -d neo4j
 # Wait till neo4j is available
 sleep 60
 
+# Load environment variables from .env file
+if [ -f .env ]; then
+  source .env
+else
+  echo ".env file not found"
+  exit 1
+fi
+
 # Define unique constraints
-docker exec -it neo4j cypher-shell -u neo4j -p letmein -d neo4j 'CREATE CONSTRAINT IF NOT EXISTS ON (t:Transaction) ASSERT t.hash IS UNIQUE;'
-docker exec -it neo4j cypher-shell -u neo4j -p letmein -d neo4j 'CREATE CONSTRAINT IF NOT EXISTS ON (a:Address) ASSERT a.id IS UNIQUE;'
-docker exec -it neo4j cypher-shell -u neo4j -p letmein -d neo4j 'CREATE INDEX FOR (t:Transaction) ON (t.timestamp);'
+docker exec -it neo4j cypher-shell -u $NEO4J_USERNAME -p $NEO4J_PASS -d neo4j 'CREATE CONSTRAINT IF NOT EXISTS ON (t:Transaction) ASSERT t.hash IS UNIQUE;'
+docker exec -it neo4j cypher-shell -u $NEO4J_USERNAME -p $NEO4J_PASS -d neo4j 'CREATE CONSTRAINT IF NOT EXISTS ON (a:Address) ASSERT a.id IS UNIQUE;'
+docker exec -it neo4j cypher-shell -u $NEO4J_USERNAME -p $NEO4J_PASS -d neo4j 'CREATE INDEX FOR (t:Transaction) ON (t.timestamp);'
 
 docker compose stop
 
