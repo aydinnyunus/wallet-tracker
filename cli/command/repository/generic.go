@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
@@ -69,4 +70,21 @@ func GetDockerEnvVar(containerName, key string) (string, error) {
 	}
 
 	return strings.TrimSpace(string(output)), nil
+}
+
+func ContainerExists(containerName string) bool {
+	cmd := exec.Command("docker", "ps", "--filter", fmt.Sprintf("name=%s", containerName), "--format", "{{.Names}}")
+	output, err := cmd.Output()
+	if err != nil {
+		log.Printf("Error checking if container exists: %v", err)
+		return false
+	}
+
+	containerNames := strings.Split(strings.TrimSpace(string(output)), "\n")
+	for _, name := range containerNames {
+		if name == containerName {
+			return true
+		}
+	}
+	return false
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	generic "github.com/aydinnyunus/wallet-tracker/cli/command/repository"
+	"github.com/fatih/color"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
@@ -26,17 +27,22 @@ func main() {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 
-	dockerEnvVarValue, err := generic.GetDockerEnvVar(generic.ContainerName, generic.Neo4jAuth)
-	if err != nil {
-		log.Fatalf("Error getting Docker env var: %v", err)
-	}
+	if generic.ContainerExists(generic.ContainerName) {
+		dockerEnvVarValue, err := generic.GetDockerEnvVar(generic.ContainerName, generic.Neo4jAuth)
+		if err != nil {
+			log.Fatalf("Error getting Docker env var: %v", err)
+		}
 
-	envVarValue := neo4jUser + "/" + neo4jPass
+		envVarValue := neo4jUser + "/" + neo4jPass
 
-	if envVarValue == dockerEnvVarValue {
-		fmt.Println("The .env NEO4J_AUTH value matches the Docker container NEO4J_AUTH value.")
+		if envVarValue == dockerEnvVarValue {
+			fmt.Println("The .env NEO4J_AUTH value matches the Docker container NEO4J_AUTH value.")
+		} else {
+			generic.RestartDockerCompose()
+		}
+
 	} else {
-		generic.RestartDockerCompose()
+		color.Red("Please start neo4j database using ./wallet-tracker neodash start")
 	}
 
 	rootCmd = commands.NewWalletTrackerCommand()
