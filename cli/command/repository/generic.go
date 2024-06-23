@@ -4,6 +4,7 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -37,4 +38,24 @@ func StringInSlice(a string, list []string) bool {
 		}
 	}
 	return false
+}
+
+// Function to restart Docker Compose
+func RestartDockerCompose() {
+	commands := []string{
+		"docker-compose down",
+		"docker-compose up -d",
+	}
+
+	for _, cmd := range commands {
+		command := exec.Command("sh", "-c", cmd)
+		command.Stdout = os.Stdout
+		command.Stderr = os.Stderr
+
+		err := command.Run()
+		if err != nil {
+			log.Printf("Command failed: %s\n", cmd)
+			log.Fatal(err)
+		}
+	}
 }
