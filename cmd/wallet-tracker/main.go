@@ -36,7 +36,7 @@ func main() {
 	if envVarValue == dockerEnvVarValue {
 		fmt.Println("The .env NEO4J_AUTH value matches the Docker container NEO4J_AUTH value.")
 	} else {
-		fmt.Printf("The .env NEO4J_AUTH value (%s) does not match the Docker container NEO4J_AUTH value (%s).\n", envVarValue, dockerEnvVarValue)
+		generic.RestartDockerCompose()
 	}
 
 	rootCmd = commands.NewWalletTrackerCommand()

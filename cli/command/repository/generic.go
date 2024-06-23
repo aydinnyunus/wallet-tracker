@@ -43,8 +43,8 @@ func StringInSlice(a string, list []string) bool {
 // Function to restart Docker Compose
 func RestartDockerCompose() {
 	commands := []string{
-		"docker-compose down",
-		"docker-compose up -d",
+		"docker compose down",
+		"docker compose up -d",
 	}
 
 	for _, cmd := range commands {
