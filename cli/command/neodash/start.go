@@ -135,7 +135,7 @@ func CreateNeodash(args models.ScammerQueryArgs) ([]byte, error) {
 
 // DefineSchema is a temporary method to satisfy the authentication process.
 func DefineSchema(args models.ScammerQueryArgs) ([]byte, error) {
-	cmdStr := "sudo sh define_schema.sh"
+	cmdStr := "sudo bash define_schema.sh"
 	out, _ := exec.Command("/bin/sh", "-c", cmdStr).Output()
 	color.Yellow(string(out))
 	return out, nil
