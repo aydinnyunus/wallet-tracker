@@ -10,7 +10,6 @@ services:
       - 7687:7687
     volumes:
       - ./neo4j/data:/data
-      - ./neo4j/conf:/conf
     environment:
       - NEO4J_USERNAME=${NEO4J_USERNAME}
       - NEO4J_PASSWORD=${NEO4J_PASS}

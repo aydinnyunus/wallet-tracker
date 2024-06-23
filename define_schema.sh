@@ -12,7 +12,7 @@ else
 fi
 
 docker cp conf/disabled.conf neo4j:/var/lib/neo4j/conf/neo4j.conf
-docker exec -e NEO4J_USERNAME="$NEO4J_USERNAME" -e NEO4J_PASSWORD="$OLD_PASSWORD" neo4j cypher-shell -u "$NEO4J_USERNAME" -p "$OLD_PASSWORD" "ALTER USER $NEO4J_USERNAME SET PASSWORD '$NEO4J_PASS';"
+docker exec -e NEO4J_USERNAME="$NEO4J_USERNAME" -e NEO4J_PASSWORD="$NEO4J_PASS" neo4j cypher-shell -u "$NEO4J_USERNAME" -p "$NEO4J_PASS" "ALTER USER $NEO4J_USERNAME SET PASSWORD '$NEO4J_PASS';"
 
 # Define unique constraints
 docker exec neo4j cypher-shell -u $NEO4J_USERNAME -p $NEO4J_PASS -d neo4j 'CREATE CONSTRAINT IF NOT EXISTS ON (t:Transaction) ASSERT t.hash IS UNIQUE;'
