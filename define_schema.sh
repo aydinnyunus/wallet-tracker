@@ -3,7 +3,6 @@ docker compose up -d neo4j
 # Wait till neo4j is available
 sleep 60
 
-export OLD_PASSWORD=$NEO4J_PASS
 # Load environment variables from .env file
 if [ -f .env ]; then
   source .env
@@ -12,6 +11,7 @@ else
   exit 1
 fi
 
+docker cp conf/neo4j.conf neo4j:/var/lib/neo4j/conf/neo4j.conf
 docker exec -e NEO4J_USERNAME="$NEO4J_USERNAME" -e NEO4J_PASSWORD="$OLD_PASSWORD" neo4j cypher-shell -u "$NEO4J_USERNAME" -p "$OLD_PASSWORD" "ALTER USER $NEO4J_USERNAME SET PASSWORD '$NEO4J_PASS';"
 
 # Define unique constraints
