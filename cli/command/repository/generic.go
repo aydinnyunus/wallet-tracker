@@ -1,13 +1,15 @@
 package repository
 
 import (
+	"fmt"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 )
 
-func getEnv(key, fallback string) string {
+func GetEnv(key, fallback string) string {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file")
@@ -33,6 +35,54 @@ func CheckWalletNetwork(walletAddr string) int {
 func StringInSlice(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {
+			return true
+		}
+	}
+	return false
+}
+
+// Function to restart Docker Compose
+func RestartDockerCompose() {
+	commands := []string{
+		"docker compose down",
+		"sudo bash define_schema.sh",
+		"docker compose up -d",
+	}
+
+	for _, cmd := range commands {
+		command := exec.Command("sh", "-c", cmd)
+		command.Stdout = os.Stdout
+		command.Stderr = os.Stderr
+
+		err := command.Run()
+		if err != nil {
+			log.Printf("Command failed: %s\n", cmd)
+			log.Fatal(err)
+		}
+	}
+}
+
+func GetDockerEnvVar(containerName, key string) (string, error) {
+	cmd := exec.Command("docker", "exec", containerName, "printenv", key)
+	output, err := cmd.Output()
+	if err != nil {
+		return "", err
+	}
+
+	return strings.TrimSpace(string(output)), nil
+}
+
+func ContainerExists(containerName string) bool {
+	cmd := exec.Command("docker", "ps", "--filter", fmt.Sprintf("name=%s", containerName), "--format", "{{.Names}}")
+	output, err := cmd.Output()
+	if err != nil {
+		log.Printf("Error checking if container exists: %v", err)
+		return false
+	}
+
+	containerNames := strings.Split(strings.TrimSpace(string(output)), "\n")
+	for _, name := range containerNames {
+		if name == containerName {
 			return true
 		}
 	}

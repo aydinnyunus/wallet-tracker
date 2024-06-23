@@ -15,9 +15,11 @@ const (
 )
 
 var (
-	Neo4jUri         = getEnv("NEO4J_URI", "neo4j://localhost:7687")
-	Neo4jUser        = getEnv("NEO4J_USERNAME", "neo4j")
-	Neo4jPass        = getEnv("NEO4J_PASS", "letmein")
+	Neo4jUri         = GetEnv("NEO4J_URI", "neo4j://localhost:7687")
+	Neo4jUser        = GetEnv("NEO4J_USERNAME", "neo4j")
+	Neo4jPass        = GetEnv("NEO4J_PASS", "letmein")
+	ContainerName    = "neo4j"
+	Neo4jAuth        = "NEO4J_AUTH"
 	exchange         = []string{"uniswap", "bitfinex"}
 	SatoshiToBitcoin = float64(100000000)
 	ExitNodes        []string
