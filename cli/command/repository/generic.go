@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func getEnv(key, fallback string) string {
+func GetEnv(key, fallback string) string {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file")
@@ -58,4 +58,14 @@ func RestartDockerCompose() {
 			log.Fatal(err)
 		}
 	}
+}
+
+func GetDockerEnvVar(containerName, key string) (string, error) {
+	cmd := exec.Command("docker", "exec", containerName, "printenv", key)
+	output, err := cmd.Output()
+	if err != nil {
+		return "", err
+	}
+
+	return strings.TrimSpace(string(output)), nil
 }
