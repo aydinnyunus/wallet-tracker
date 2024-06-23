@@ -44,6 +44,7 @@ func StringInSlice(a string, list []string) bool {
 func RestartDockerCompose() {
 	commands := []string{
 		"docker compose down",
+		"sh define_schema.sh",
 		"docker compose up -d",
 	}
 
