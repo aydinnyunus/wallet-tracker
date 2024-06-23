@@ -1,11 +1,18 @@
 package repository
 
 import (
+	"github.com/joho/godotenv"
+	"log"
 	"os"
 	"strings"
 )
 
 func getEnv(key, fallback string) string {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
 	if value, ok := os.LookupEnv(key); ok {
 		return value
 	}
