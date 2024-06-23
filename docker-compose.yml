@@ -11,7 +11,7 @@ services:
     volumes:
       - ./neo4j/data:/data
     environment:
-      - NEO4J_AUTH=neo4j/letmein
+      - NEO4J_AUTH=${NEO4J_USERNAME}/${NEO4J_PASS}
       - NEO4JLABS_PLUGINS=["apoc", "graph-data-science"]
       - NEO4J_dbms_security_procedures_unrestricted=apoc.*,gds.*
       - NEO4J_dbms_memory_heap_initial__size=4G

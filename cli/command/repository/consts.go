@@ -1,6 +1,8 @@
 package repository
 
-import "time"
+import (
+	"time"
+)
 
 const (
 	BtcNetwork  = 1
@@ -14,7 +16,7 @@ const (
 
 var (
 	Neo4jUri         = getEnv("NEO4J_URI", "neo4j://localhost:7687")
-	Neo4jUser        = getEnv("NEO4J_USER", "neo4j")
+	Neo4jUser        = getEnv("NEO4J_USERNAME", "neo4j")
 	Neo4jPass        = getEnv("NEO4J_PASS", "letmein")
 	exchange         = []string{"uniswap", "bitfinex"}
 	SatoshiToBitcoin = float64(100000000)
