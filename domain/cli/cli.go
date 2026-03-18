@@ -9,7 +9,6 @@ import (
 	"github.com/aydinnyunus/wallet-tracker/domain/repository"
 )
 
-
 /*
 	Here we keep the necessary configuration of our cli.
 */
@@ -20,9 +19,7 @@ const ()
 // global variables (not cool) for this file.
 var ()
 
-
 type Cli struct {
-
 	UserAPIToken string `mapstructure:"USER_API_TOKEN" json:"user_api_token" flag:"user-api-token"`
 
 	repository.Database `mapstructure:"DATABASE" flag:"database"`
@@ -51,7 +48,7 @@ func (c *Cli) Validate() error {
 	)
 
 	// TODO add validation support
-	if c.UserAPIToken == ""  {
+	if c.UserAPIToken == "" {
 		return errors.New("cli config has empty field")
 	}
 

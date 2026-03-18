@@ -94,6 +94,16 @@ func startNeoDash(cmd *cobra.Command, _ []string) error {
 }
 
 func CreateNeodash(args models.ScammerQueryArgs) ([]byte, error) {
+	_, err := git.PlainClone(mydir+"/bitcoin-to-neo4jdash", false, &git.CloneOptions{
+		URL:      "https://github.com/tomasonjo/bitcoin-to-neo4jdash",
+		Progress: os.Stdout,
+	})
+
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
 	color.Yellow("Define Schema is starting")
 	_, err := DefineSchema(args)
 	if err != nil {
@@ -102,28 +112,7 @@ func CreateNeodash(args models.ScammerQueryArgs) ([]byte, error) {
 	}
 	color.Yellow("Define Schema is finished")
 
-	err = checkBinaryExists("docker")
-	// Check if Docker Compose is running
-	if err == nil {
-		cmd := exec.Command("docker", "compose", "ps", "-q")
-		out, err := cmd.Output()
-		if err != nil {
-			log.Fatal(err)
-			return nil, err
-		}
-
-		if len(out) == 0 {
-			// Docker Compose is not running, start it
-			color.Yellow("Builds, (re)creates, starts, and attaches to containers for a service.")
-			out, err = DockerComposeUp(args)
-			if err != nil {
-				log.Fatal(err)
-				return nil, err
-			}
-			color.Yellow("docker-compose up finished. http://localhost:80")
-		} else {
-			color.Yellow("Docker Compose is already running")
-		}
+	color.Yellow("Builds, (re)creates, starts, and attaches to containers for a service.")
 
 		return out, err
 	} else {
@@ -142,7 +131,7 @@ func DefineSchema(args models.ScammerQueryArgs) ([]byte, error) {
 }
 
 func DockerComposeUp(args models.ScammerQueryArgs) ([]byte, error) {
-	cmdStr := "sudo docker compose -f docker-compose.yml up -d"
+	cmdStr := "sudo docker-compose -f " + mydir + "/bitcoin-to-neo4jdash/docker-compose.yml up"
 	out, _ := exec.Command("/bin/sh", "-c", cmdStr).Output()
 	color.Yellow(string(out))
 	return out, nil

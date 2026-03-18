@@ -6,7 +6,6 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-
 // global constants for file
 const ()
 

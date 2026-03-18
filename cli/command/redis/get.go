@@ -124,7 +124,7 @@ func get(dbConfig models.Database, args models.ScammerQueryArgs) ([]string, erro
 
 	// filter by suspect ids
 	if args.Exchanges != nil {
-		for i := range args.Exchanges {
+		for i, _ := range args.Exchanges {
 			result = append(result, repository.ReadRedis(rdb, ctx, args.Exchanges[i], args.Limit)...)
 		}
 	}

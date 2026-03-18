@@ -11,6 +11,7 @@ import (
 )
 
 // NewWalletTrackerCommand is the highest command in the hierarchy and all commands root from it.
+//
 //nolint:funlen
 func NewWalletTrackerCommand() *cobra.Command {
 	// rootCmd represents the base command when called without any subcommands
@@ -31,7 +32,6 @@ func NewWalletTrackerCommand() *cobra.Command {
 
 	return rootCmd
 }
-
 
 // ShowHelp shows the command help.
 func ShowHelp(err io.Writer) func(*cobra.Command, []string) error {

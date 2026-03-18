@@ -47,11 +47,7 @@ func Neo4jDatabase(hash, timestamp, totalUSD, totalAmount, flowBTC, flowUSD stri
 				color.Red(err.Error())
 				return "", err
 			}
-
-			return "", nil
 		}
-
-		return "", nil
 	}
 	return "", nil
 }

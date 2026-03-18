@@ -4,7 +4,6 @@ import (
 	"fmt"
 )
 
-
 // global constants for file
 const ()
 

@@ -9,8 +9,8 @@ type Graph struct {
 type GraphNode struct {
 	id       int
 	WalletId string
-	value int
-	Edges map[int]int
+	value    int64
+	Edges    map[int]int
 }
 
 // New : returns a new instance of a Graph
@@ -21,7 +21,7 @@ func New() *Graph {
 }
 
 // AddNode : adds a new node to the Graph
-func (g *Graph) AddNode(walletId string, value int) (id int) {
+func (g *Graph) AddNode(walletId string, value int64) (id int) {
 	id = len(g.Nodes)
 	g.Nodes = append(g.Nodes, &GraphNode{
 		id:       id,

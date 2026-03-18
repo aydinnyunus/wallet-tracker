@@ -9,12 +9,7 @@ import (
 	"strings"
 )
 
-func GetEnv(key, fallback string) string {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
+func getEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
 		return value
 	}
@@ -24,7 +19,7 @@ func GetEnv(key, fallback string) string {
 func CheckWalletNetwork(walletAddr string) int {
 	if len(walletAddr) == 42 && strings.HasPrefix(walletAddr, "0x") {
 		return EthNetwork // ETH
-	} else if len(walletAddr) > 25 && len(walletAddr) < 36 && checkBTCFormat(walletAddr) {
+	} else if len(walletAddr) >= 26 && len(walletAddr) <= 62 && checkBTCFormat(walletAddr) {
 		return BtcNetwork // BTC
 	} else if len(walletAddr) == 42 && strings.HasPrefix(walletAddr, "bc1") {
 		return BtcNetwork // BTC

@@ -79,17 +79,15 @@ func startTrackWebsocket(cmd *cobra.Command, _ []string) error {
 		queryArgs.Verbose = verbose
 	}
 
-	if all{
+	if all {
 		repository.ConnectWebsocketAllTransactions(cliConfig, queryArgs)
-	} else{
+	} else {
 		/*TODO STRING ARRAYI OLACAK*/
 		repository.ConnectWebsocketSpecificAddress(queryArgs.Wallet[0])
 	}
 
 	// print out query settings
 	color.Blue(queryArgs.String())
-
-
 
 	return nil
 }

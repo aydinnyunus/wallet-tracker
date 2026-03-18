@@ -30,12 +30,12 @@ func TrackCommand() *cobra.Command {
 	}
 
 	// declaring local flags used by track wallet commands.
-	getCmd.Flags().String(
-		"wallet", "bc1q7pkc7h8td55s4em7tmlvd42wahjd4hm8lf035n", "Specify specific wallet",
+	getCmd.Flags().StringP(
+		"wallet", "w", "", "Specify specific wallet",
 	)
 
-	getCmd.Flags().String(
-		"network", "BTC", "Specify specific network",
+	getCmd.Flags().StringP(
+		"network", "n", "", "Specify specific network",
 	)
 
 	getCmd.Flags().BoolP(
@@ -143,7 +143,7 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 				time.Sleep(5 * time.Second)
 			}
 			count = 0
-			node0 := graph.AddNode(resp.Address, resp.FinalBalance)
+			node0 := graph.AddNode(resp.Address, int64(resp.FinalBalance))
 
 			for {
 				//connectWebsocketAllTransactions()
@@ -172,7 +172,7 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 							j + count + r1.Intn(100): {"address": resp.Txs[i].Inputs[j].PrevOut.Addr, "value": strconv.FormatFloat(float64(resp.Txs[i].Inputs[j].PrevOut.Value)/repository.SatoshiToBitcoin, 'E', -1, 64), "value_usd": strconv.FormatFloat(float64(resp.Txs[i].Inputs[j].PrevOut.Value)/repository.SatoshiToBitcoin*btcToUsd, 'E', -1, 64)},
 						}
 						//fmt.Println(resp.Txs[i].Inputs[j].PrevOut.Addr)
-						node1 := graph.AddNode(resp.Txs[i].Inputs[j].PrevOut.Addr, resp.Txs[i].Inputs[j].PrevOut.Value)
+						node1 := graph.AddNode(resp.Txs[i].Inputs[j].PrevOut.Addr, int64(resp.Txs[i].Inputs[j].PrevOut.Value))
 						graph.AddEdge(node0, node1, 1)
 
 						//fmt.Println(resp.Txs[i].Inputs[j].PrevOut.Value)
@@ -199,7 +199,7 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 							return nil, nil
 						}
 						color.Blue("Finished writing Transactions to Neo4j")
-						node1 := graph.AddNode(resp.Txs[i].Out[k].Addr, resp.Txs[i].Out[k].Value)
+						node1 := graph.AddNode(resp.Txs[i].Out[k].Addr, int64(resp.Txs[i].Out[k].Value))
 						graph.AddEdge(node0, node1, 1)
 					}
 				}
@@ -211,7 +211,7 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 					fmt.Print(e)
 					time.Sleep(1 * time.Minute)
 				}
-				node0 = graph.AddNode(resp.Address, resp.FinalBalance)
+				node0 = graph.AddNode(resp.Address, int64(resp.FinalBalance))
 
 				if len(graph.Nodes[len(graph.Nodes)-1].Edges) == 0 {
 					repository.ExitNodes = append(repository.ExitNodes, graph.Nodes[len(graph.Nodes)-1].WalletId)
@@ -230,7 +230,7 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 				time.Sleep(5 * time.Second)
 			}
 			count = 0
-			balance, _ := strconv.Atoi(resp2.Balance)
+			balance, _ := strconv.ParseInt(resp2.Balance, 10, 64)
 			node0 := graph.AddNode(resp2.Hash, balance)
 
 			resp, e := c.GetETHAddress(walletID[i])
@@ -246,7 +246,7 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 				r1 := rand.New(s1)
 				for i := range resp.Transactions {
 					btcToUsd := repository.GetBitcoinPrice()
-					color.Yellow("Current BTC Price : %d", btcToUsd)
+					color.Yellow("Current BTC Price : %f", btcToUsd)
 
 					repository.Hash = resp.Transactions[i].Hash
 					color.Yellow("Currently working on %s", repository.Hash)
@@ -269,7 +269,7 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 						i + count + r1.Intn(100): {"address": resp.Transactions[i].From, "value": strconv.FormatFloat(value/repository.SatoshiToBitcoin, 'E', -1, 64), "value_usd": strconv.FormatFloat(value/repository.SatoshiToBitcoin*btcToUsd, 'E', -1, 64)},
 					}
 					//fmt.Println(resp.Txs[i].Inputs[j].PrevOut.Addr)
-					node1 := graph.AddNode(resp.Transactions[i].From, int(value))
+					node1 := graph.AddNode(resp.Transactions[i].From, int64(value))
 					graph.AddEdge(node0, node1, 1)
 
 					//fmt.Println(resp.Txs[i].Inputs[j].PrevOut.Value)
@@ -297,7 +297,7 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 					}
 					color.Blue("Finished writing Transactions to Neo4j")
 
-					node1 = graph.AddNode(resp.Transactions[i].From, int(value))
+					node1 = graph.AddNode(resp.Transactions[i].From, int64(value))
 					graph.AddEdge(node0, node1, 1)
 
 				}
@@ -309,7 +309,7 @@ func TrackWallet(dbConfig models.Database, args models.ScammerQueryArgs) ([]byte
 					color.Red("Blockchain.info Rate Limiting waiting for 1 minute")
 					time.Sleep(1 * time.Minute)
 				}
-				balance, _ = strconv.Atoi(resp.Balance)
+				balance, _ = strconv.ParseInt(resp.Balance, 10, 64)
 				node0 = graph.AddNode(resp.Hash, balance)
 
 				if len(graph.Nodes[len(graph.Nodes)-1].Edges) == 0 {
